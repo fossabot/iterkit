@@ -32,11 +32,3 @@ func TestSliceIterator(t *testing.T) {
 
 	is.Equal(values, []int{1, 2, 3})
 }
-
-func BenchmarkSliceIterator(b *testing.B) {
-	it := &SliceIterator[int]{}
-
-	for n := 0; n < b.N; n++ {
-		it.Next()
-	}
-}
