@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package iterkit
+package itertools
 
 import (
 	"testing"
@@ -20,13 +20,19 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestSliceIterator(t *testing.T) {
-	it := &SliceIterator[int]{Data: []int{1, 2, 3}}
+func TestString(t *testing.T) {
+	t.Run("unicode", func(t *testing.T) {
+		s := Slice(Runes("日本\x80語"))
+		assert.Equal(t, []rune{0x65E5, 0x672C, 0xFFFD, 0x8A9E}, s)
+	})
 
-	var values []int
-	for it.Next() {
-		values = append(values, it.Value())
-	}
+	t.Run("ascii", func(t *testing.T) {
+		s := Slice(Runes("Hello World"))
+		assert.Equal(t, []rune{0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x57, 0x6f, 0x72, 0x6c, 0x64}, s)
+	})
 
-	assert.Equal(t, []int{1, 2, 3}, values)
+	t.Run("late unicode", func(t *testing.T) {
+		s := Slice(Runes("Hello Wörld"))
+		assert.Equal(t, []rune{0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x57, 0xf6, 0x72, 0x6c, 0x64}, s)
+	})
 }

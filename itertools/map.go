@@ -12,21 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package iterkit
+package itertools
 
 import (
-	"testing"
-
-	"github.com/stretchr/testify/assert"
+	"github.com/0x5a17ed/iterkit"
 )
 
-func TestSliceIterator(t *testing.T) {
-	it := &SliceIterator[int]{Data: []int{1, 2, 3}}
+type MapFn[T, V any] func(T) V
 
-	var values []int
-	for it.Next() {
-		values = append(values, it.Value())
+type MapIterator[T, V any] struct {
+	it   iterkit.Iterator[T]
+	fn   MapFn[T, V]
+	next *V
+}
+
+func (m *MapIterator[T, V]) Next() bool {
+	if m.it.Next() {
+		var v = m.fn(m.it.Value())
+		m.next = &v
+		return true
 	}
+	m.next = nil
+	return false
+}
 
-	assert.Equal(t, []int{1, 2, 3}, values)
+func (m *MapIterator[T, V]) Value() V { return *m.next }
+
+// Map returns an iterator that applies MapFn function to every item
+// of iterkit.Iterator iterable, yielding the results.
+func Map[T, V any](it iterkit.Iterator[T], fn MapFn[T, V]) iterkit.Iterator[V] {
+	return &MapIterator[T, V]{it: it, fn: fn}
 }

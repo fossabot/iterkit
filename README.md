@@ -4,6 +4,9 @@
 
 Dead simple generic iterator interface.
 
+The package `itertools` is meant to implement iterator functions similar to what python has to offer.
+
+
 ## 📦 Installation
 
 ```shell

@@ -12,21 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package iterkit
+package itertools
 
-import (
-	"testing"
+type Option[T any] struct{ val *T }
 
-	"github.com/stretchr/testify/assert"
-)
+func (o *Option[T]) Set(val T)   { o.val = &val }
+func (o Option[T]) IsSome() bool { return o.val != nil }
 
-func TestSliceIterator(t *testing.T) {
-	it := &SliceIterator[int]{Data: []int{1, 2, 3}}
-
-	var values []int
-	for it.Next() {
-		values = append(values, it.Value())
+func (o Option[T]) OrElse(other T) T {
+	if o.IsSome() {
+		return *o.val
 	}
-
-	assert.Equal(t, []int{1, 2, 3}, values)
+	return other
 }

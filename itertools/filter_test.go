@@ -12,21 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package iterkit
+package itertools
 
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	assertpkg "github.com/stretchr/testify/assert"
 )
 
-func TestSliceIterator(t *testing.T) {
-	it := &SliceIterator[int]{Data: []int{1, 2, 3}}
+func TestFilter(t *testing.T) {
+	t.Run("FilterRange", func(t *testing.T) {
+		assert := assertpkg.New(t)
+		s := Slice(Filter(Range(10), func(i int) bool { return i%2 == 0 }))
+		assert.Equal([]int{0, 2, 4, 6, 8}, s)
+	})
 
-	var values []int
-	for it.Next() {
-		values = append(values, it.Value())
-	}
-
-	assert.Equal(t, []int{1, 2, 3}, values)
+	t.Run("FilterString", func(t *testing.T) {
+		assert := assertpkg.New(t)
+		s := String(Filter(Runes("Hello Wörld"), func(c rune) bool { return 'a' <= c && c <= 'z' }))
+		assert.Equal("ellorld", s)
+	})
 }

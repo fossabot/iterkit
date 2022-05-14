@@ -12,21 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package iterkit
+package itertools
 
 import (
-	"testing"
-
-	"github.com/stretchr/testify/assert"
+	"github.com/0x5a17ed/iterkit"
 )
 
-func TestSliceIterator(t *testing.T) {
-	it := &SliceIterator[int]{Data: []int{1, 2, 3}}
+type EachFunc[T any] func(item T) bool
 
-	var values []int
+// Each walks through the iterator given in it and calls fn for
+// every single entry.
+func Each[T any](it iterkit.Iterator[T], fn EachFunc[T]) {
 	for it.Next() {
-		values = append(values, it.Value())
+		if fn(it.Value()) {
+			break
+		}
 	}
+}
 
-	assert.Equal(t, []int{1, 2, 3}, values)
+type EachIndexFunc[T any] func(i int, item T) bool
+
+// EachIndex walks through the iterator given in it and calls fn for
+// every single entry together with its index.
+func EachIndex[T any](it iterkit.Iterator[T], fn EachIndexFunc[T]) {
+	for i := 0; it.Next(); i += 1 {
+		if fn(i, it.Value()) {
+			break
+		}
+	}
 }
