@@ -21,7 +21,7 @@ import (
 )
 
 func TestSliceIterator(t *testing.T) {
-	it := &SliceIterator[int]{Data: []int{1, 2, 3}}
+	it := From([]int{1, 2, 3})
 
 	var values []int
 	for it.Next() {

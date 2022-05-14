@@ -38,3 +38,8 @@ func (it *SliceIterator[T]) Next() bool {
 func (it *SliceIterator[T]) Value() T {
 	return *it.current
 }
+
+// From returns an iterator yielding items from the given slice.
+func From[T any](s []T) Iterator[T] {
+	return &SliceIterator[T]{Data: s}
+}
