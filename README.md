@@ -1,6 +1,7 @@
 # iterkit
 
 [![License: APACHE-2.0](https://img.shields.io/badge/license-APACHE--2.0-blue?style=flat-square)](https://www.apache.org/licenses/)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2F0x5a17ed%2Fiterkit.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2F0x5a17ed%2Fiterkit?ref=badge_shield)
 
 Dead simple generic iterator interface.
 
@@ -30,3 +31,7 @@ func main() {
 	}
 }
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2F0x5a17ed%2Fiterkit.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2F0x5a17ed%2Fiterkit?ref=badge_large)
